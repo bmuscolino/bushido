@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BushidoMoon — Intentional serendipity under the full moon</title>
+<style>
+  :root {
+    --bg-deep: #07090f;
+    --bg-navy: #0d1220;
+    --bg-navy-2: #121a2e;
+    --gold: #e8b15a;
+    --gold-soft: #f1c98a;
+    --orange: #d97b3f;
+    --text-soft: #f3eee6;
+    --text-dim: #b9bcc8;
+    --line: rgba(232, 177, 90, 0.18);
+    --serif: "Georgia", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: radial-gradient(ellipse at 50% -10%, #1a2236 0%, var(--bg-navy) 45%, var(--bg-deep) 100%);
+    color: var(--text-soft);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--serif);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    margin: 0;
+  }
+
+  p { color: var(--text-dim); margin: 0; }
+
+  /* ---------- Background moon / stars ---------- */
+  .sky {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .moon {
+    position: absolute;
+    top: 6%;
+    right: 8%;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff6df 0%, var(--gold-soft) 35%, var(--gold) 65%, #b9802f 100%);
+    box-shadow: 0 0 60px 20px rgba(232, 177, 90, 0.25), 0 0 140px 60px rgba(232, 177, 90, 0.12);
+    animation: glow 6s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 60px 20px rgba(232, 177, 90, 0.22), 0 0 140px 60px rgba(232, 177, 90, 0.10); }
+    50% { box-shadow: 0 0 80px 30px rgba(232, 177, 90, 0.32), 0 0 170px 80px rgba(232, 177, 90, 0.16); }
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--text-soft);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.9; }
+  }
+
+  /* ---------- Nav ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(7, 9, 15, 0.7);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  nav {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--gold-soft);
+    letter-spacing: 0.5px;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a:hover { color: var(--gold-soft); }
+
+  .nav-cta {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--orange));
+    color: #1a0f02;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--gold-soft);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 1rem;
+  }
+
+  /* ---------- Sections ---------- */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 96px 0;
+  }
+
+  .eyebrow {
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding-top: 60px;
+    text-align: center;
+  }
+
+  .hero-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 9vw, 5.5rem);
+    color: var(--text-soft);
+    text-shadow: 0 0 40px rgba(232, 177, 90, 0.25);
+    margin-bottom: 18px;
+  }
+
+  .hero .subhead {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    color: var(--gold-soft);
+    margin-bottom: 26px;
+  }
+
+  .hero p.body {
+    font-size: 1.08rem;
+    color: var(--text-dim);
+    max-width: 640px;
+    margin: 0 auto 14px;
+  }
+
+  .hero-cta-wrap {
+    margin-top: 40px;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), var(--orange));
+    color: #1a0f02;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 16px 38px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(217, 123, 63, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(217, 123, 63, 0.5);
+  }
+
+  .hero-meta {
+    margin-top: 18px;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+
+  .hero-meta strong { color: var(--gold-soft); font-weight: 600; }
+
+  /* ---------- Section headlines ---------- */
+  .section-head {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 56px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    color: var(--text-soft);
+  }
+
+  .section-head p { margin-top: 14px; font-size: 1.05rem; }
+
+  /* ---------- What Is ---------- */
+  .what-is .body-text {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.08rem;
+  }
+
+  .what-is .body-text p { margin-bottom: 18px; }
+
+  /* ---------- Cards ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .card {
+    background: linear-gradient(160deg, rgba(232, 177, 90, 0.06), rgba(255,255,255,0.02));
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px 26px;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(232, 177, 90, 0.45);
+  }
+
+  .card .tag {
+    color: var(--gold-soft);
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .card p { font-size: 0.98rem; }
+
+  /* ---------- Event Details ---------- */
+  .event-box {
+    background: linear-gradient(160deg, rgba(232, 177, 90, 0.07), rgba(255,255,255,0.02));
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 48px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .event-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px;
+    margin-bottom: 40px;
+  }
+
+  .event-item .label {
+    color: var(--gold-soft);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .event-item .value {
+    color: var(--text-soft);
+    font-size: 1.05rem;
+  }
+
+  .schedule {
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+  }
+
+  .schedule-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 22px;
+  }
+
+  .schedule-time {
+    flex: 0 0 150px;
+    color: var(--gold-soft);
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .schedule-desc { color: var(--text-dim); font-size: 0.98rem; }
+
+  .event-cta { text-align: center; margin-top: 40px; }
+
+  /* ---------- Who It Is For ---------- */
+  .who-body {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.08rem;
+  }
+
+  .who-body p { margin-bottom: 18px; }
+
+  /* ---------- Ecosystem ---------- */
+  .ecosystem-body {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.08rem;
+  }
+
+  .ecosystem-body p { margin-bottom: 22px; }
+
+  .tagline {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gold-soft);
+    font-size: 1.25rem;
+  }
+
+  /* ---------- Testimonial ---------- */
+  .testimonial-box {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    border-left: 2px solid var(--gold);
+    padding: 10px 36px;
+  }
+
+  .testimonial-box blockquote {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--text-soft);
+    margin: 0 0 24px;
+  }
+
+  .testimonial-box .attribution strong {
+    color: var(--gold-soft);
+    display: block;
+    font-size: 1rem;
+  }
+
+  .testimonial-box .attribution span {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+
+  /* ---------- Final CTA ---------- */
+  .final-cta {
+    text-align: center;
+  }
+
+  .final-cta h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 18px;
+  }
+
+  .final-cta p {
+    max-width: 520px;
+    margin: 0 auto 36px;
+    font-size: 1.08rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 24px 60px;
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    border-top: 1px solid var(--line);
+  }
+
+  footer .tagline-footer {
+    color: var(--gold-soft);
+    margin-top: 8px;
+    font-family: var(--serif);
+    font-style: italic;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .cards { grid-template-columns: 1fr; }
+    .event-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .nav-toggle { display: inline-block; }
+    .nav-cta { display: none; }
+  }
+
+  header.open .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(7, 9, 15, 0.97);
+    padding: 20px 24px;
+    gap: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  header.open .nav-cta {
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 480px) {
+    section { padding: 64px 0; }
+    .moon { width: 140px; height: 140px; top: 4%; right: 6%; }
+    .event-box { padding: 30px 22px; }
+    .schedule-item { flex-direction: column; gap: 4px; }
+    .schedule-time { flex: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky" id="sky">
+  <div class="moon"></div>
+</div>
+
+<header id="siteHeader">
+  <nav>
+    <a href="#top" class="logo">BushidoMoon</a>
+    <ul class="nav-links">
+      <li><a href="#what-is">What It Is</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#event-details">Event Details</a></li>
+      <li><a href="#testimonial">Testimonial</a></li>
+      <li><a href="https://luma.com/jfrucial" target="_blank" rel="noopener" class="nav-cta">Register</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1>BushidoMoon</h1>
+      <p class="subhead">Intentional serendipity under the full moon.</p>
+      <p class="body">
+        BushidoMoon is a small, invitation-based gathering where curious, generous, and interesting people connect before, during, and after a shared full moon experience.
+      </p>
+      <p class="body">
+        It is part picnic, part dinner, part conversation salon, part community experiment — designed to create real connection, unexpected introductions, and meaningful momentum.
+      </p>
+      <div class="hero-cta-wrap">
+        <a href="https://luma.com/jfrucial" target="_blank" rel="noopener" class="cta-btn">Register on Luma</a>
+        <p class="hero-meta">Next gathering: <strong>June 29, 2026 — Washington National Cathedral, Washington, DC</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What Is BushidoMoon -->
+  <section id="what-is" class="what-is">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">What It Is</span>
+        <h2>Not networking. Not small talk. A living experiment in connection.</h2>
+      </div>
+      <div class="body-text">
+        <p>Most events begin cold. People arrive, exchange job titles, make small talk, and hope something useful happens.</p>
+        <p>BushidoMoon works differently.</p>
+        <p>Before the gathering, participants connect through a WhatsApp group. They introduce themselves, ask questions, share who they are, and name the kinds of people they hope to meet.</p>
+        <p>By the time everyone meets in person, the room is already warm.</p>
+        <p>BushidoMoon creates the conditions for serendipity — through curiosity, generosity, and intentional introductions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">How It Works</span>
+        <h2>Before, during, and after.</h2>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <span class="tag">Before</span>
+          <p>Participants join the WhatsApp group, introduce themselves, share why they are coming, and name three people they would love to meet.</p>
+        </div>
+        <div class="card">
+          <span class="tag">During</span>
+          <p>The group gathers for picnic, dinner, conversation, and full moon viewing near the Washington National Cathedral.</p>
+        </div>
+        <div class="card">
+          <span class="tag">After</span>
+          <p>The connection continues. People follow up, help each other, make introductions, and build real relationships beyond the event.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Three People Question -->
+  <section id="three-people">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">The Three People Question</span>
+        <h2>Who are three people you want to meet?</h2>
+        <p>Every participant is invited to think about three kinds of connection.</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <span class="tag">Life</span>
+          <p>Someone who expands your world personally — a friend, mentor, teacher, artist, adventurer, healer, or someone who has lived through something you are trying to understand.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Business</span>
+          <p>Someone who can help you build, launch, fund, sell, hire, partner, solve, or think more clearly.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Serendipity</span>
+          <p>Someone you cannot fully define yet — a wild card, a strange fit, a person outside your usual world, or someone who might unlock an unexpected door.</p>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:40px; font-style:italic; font-family:var(--serif); color:var(--gold-soft); font-size:1.1rem;">
+        The more specific you are, the more useful the room becomes.
+      </p>
+    </div>
+  </section>
+
+  <!-- Event Details -->
+  <section id="event-details">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Event Details</span>
+        <h2>Next BushidoMoon</h2>
+      </div>
+      <div class="event-box">
+        <div class="event-grid">
+          <div class="event-item">
+            <span class="label">Date</span>
+            <span class="value">June 29, 2026</span>
+          </div>
+          <div class="event-item">
+            <span class="label">Location</span>
+            <span class="value">Washington National Cathedral, Washington, DC</span>
+          </div>
+          <div class="event-item">
+            <span class="label">Host</span>
+            <span class="value">Steve Kantor — Lifebushido</span>
+          </div>
+          <div class="event-item">
+            <span class="label">Format</span>
+            <span class="value">Small group picnic, dinner at Cactus Cantina, and full moon viewing</span>
+          </div>
+          <div class="event-item">
+            <span class="label">Group Size</span>
+            <span class="value">Usually 5–15 interesting people</span>
+          </div>
+          <div class="event-item">
+            <span class="label">Vibe</span>
+            <span class="value">Casual, generous, curious, and alive</span>
+          </div>
+        </div>
+        <div class="schedule">
+          <div class="schedule-item">
+            <span class="schedule-time">6:30 PM – 8:00 PM</span>
+            <span class="schedule-desc">Picnic in Bishop's Garden. Bring food or drink to share.</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-time">8:00 PM – 9:30 PM</span>
+            <span class="schedule-desc">Dinner and drinks at Cactus Cantina near Washington National Cathedral.</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-time">9:30 PM onward</span>
+            <span class="schedule-desc">Full moon viewing together. Howling at the moon is optional but encouraged.</span>
+          </div>
+        </div>
+        <div class="event-cta">
+          <a href="https://luma.com/jfrucial" target="_blank" rel="noopener" class="cta-btn">Register on Luma</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who It Is For -->
+  <section id="who-it-is-for">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Who It Is For</span>
+        <h2>For people building bold lives.</h2>
+      </div>
+      <div class="who-body">
+        <p>BushidoMoon is for founders, builders, creatives, investors, operators, social entrepreneurs, artists, professionals, seekers, and connectors.</p>
+        <p>It is for people who believe that one conversation can change the direction of a life.</p>
+        <p>It is for people who are willing to show up with curiosity, generosity, and presence.</p>
+        <p>This is not for passive attendees.</p>
+        <p>BushidoMoon works because everyone contributes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ecosystem -->
+  <section id="ecosystem">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">The Bushido Ecosystem</span>
+        <h2>More than one gathering. An ecosystem of connection.</h2>
+      </div>
+      <div class="ecosystem-body">
+        <p>BushidoMoon is part of a wider Lifebushido ecosystem that includes Bushido Dinners, Bushido Coffees, Bushido Walks, and other gatherings designed around meaningful human connection.</p>
+        <p>The shared spirit is simple:</p>
+        <p class="tagline">Live Life Boldly. Help Each Other. Anything is Possible.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section id="testimonial">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Testimonial</span>
+      </div>
+      <div class="testimonial-box">
+        <blockquote>
+          "BushidoMoon has helped me connect with people I would not normally meet through my professional world or usual circle of friends. The people I have met have been thoughtful, generous, and genuinely helpful — and I have enjoyed helping them with their goals as well. What I appreciate most is that BushidoMoon is part of a broader ecosystem of connection: dinners, coffees, walks, and gatherings built around people helping each other live more boldly."
+        </blockquote>
+        <div class="attribution">
+          <strong>Bruno Muscolino</strong>
+          <span>BushidoMoon participant</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section id="register" class="final-cta">
+    <div class="container">
+      <h2>Come curious. Leave connected.</h2>
+      <p>Join the next BushidoMoon and meet people you may not have found anywhere else.</p>
+      <a href="https://luma.com/jfrucial" target="_blank" rel="noopener" class="cta-btn">Register on Luma</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>Hosted by Steve Kantor / Lifebushido</div>
+  <div class="tagline-footer">Live Life Boldly. Help Each Other. Anything is Possible.</div>
+</footer>
+
+<script>
+  // Generate scattered stars
+  (function() {
+    var sky = document.getElementById('sky');
+    var count = window.innerWidth < 600 ? 40 : 80;
+    for (var i = 0; i < count; i++) {
+      var star = document.createElement('div');
+      star.className = 'star';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.animationDelay = (Math.random() * 4) + 's';
+      star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
+      sky.appendChild(star);
+    }
+  })();
+
+  // Mobile nav toggle
+  var navToggle = document.getElementById('navToggle');
+  var header = document.getElementById('siteHeader');
+  navToggle.addEventListener('click', function() {
+    header.classList.toggle('open');
+  });
+
+  // Smooth-scroll nav links with offset for the sticky header,
+  // and close the mobile menu after navigating.
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var targetId = link.getAttribute('href').slice(1);
+      var target = document.getElementById(targetId);
+      if (!target) return;
+      e.preventDefault();
+      header.classList.remove('open');
+      var headerHeight = header.offsetHeight;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
