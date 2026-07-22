@@ -1,3 +1,10 @@
+<script>
+
+const url = "https://luma.com/c4gn0qa2";
+const date = "July 29, 2026"
+
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -482,7 +489,7 @@
       <li><a href="#how-it-works">How It Works</a></li>
       <li><a href="#event-details">Event Details</a></li>
       <li><a href="#testimonial">Testimonial</a></li>
-      <li><a href="https://luma.com/jfrucial" target="_blank" rel="noopener" class="nav-cta">Register</a></li>
+      <li><a href="#" target="_blank" rel="noopener" class="nav-cta luma-link">Register</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
   </nav>
@@ -502,8 +509,8 @@
         It is part picnic, part dinner, part conversation salon, part community experiment — designed to create real connection, unexpected introductions, and meaningful momentum.
       </p>
       <div class="hero-cta-wrap">
-        <a href="https://luma.com/jfrucial" target="_blank" rel="noopener" class="cta-btn">Register on Luma</a>
-        <p class="hero-meta">Next gathering: <strong>June 29, 2026 — Washington National Cathedral, Washington, DC</strong></p>
+        <a href="#" target="_blank" rel="noopener" class="cta-btn luma-link">Register on Luma</a>
+        <p class="hero-meta">Next gathering: <strong><span class="js-date"></span> — Washington National Cathedral, Washington, DC</strong></p>
       </div>
     </div>
   </section>
@@ -588,7 +595,7 @@
         <div class="event-grid">
           <div class="event-item">
             <span class="label">Date</span>
-            <span class="value">June 29, 2026</span>
+            <span class="value js-date"></span>
           </div>
           <div class="event-item">
             <span class="label">Location</span>
@@ -626,7 +633,7 @@
           </div>
         </div>
         <div class="event-cta">
-          <a href="https://luma.com/jfrucial" target="_blank" rel="noopener" class="cta-btn">Register on Luma</a>
+          <a href="#" target="_blank" rel="noopener" class="cta-btn luma-link">Register on Luma</a>
         </div>
       </div>
     </div>
@@ -687,7 +694,7 @@
     <div class="container">
       <h2>Come curious. Leave connected.</h2>
       <p>Join the next BushidoMoon and meet people you may not have found anywhere else.</p>
-      <a href="https://luma.com/jfrucial" target="_blank" rel="noopener" class="cta-btn">Register on Luma</a>
+      <a href="#" target="_blank" rel="noopener" class="cta-btn luma-link">Register on Luma</a>
     </div>
   </section>
 
@@ -719,6 +726,15 @@
   var header = document.getElementById('siteHeader');
   navToggle.addEventListener('click', function() {
     header.classList.toggle('open');
+  });
+
+  // Wire up all register links to the url variable defined at the top
+  document.querySelectorAll('.luma-link').forEach(function(el) {
+    el.href = url;
+  });
+
+  document.querySelectorAll('.js-date').forEach(function(el) {
+    el.textContent = date;
   });
 
   // Smooth-scroll nav links with offset for the sticky header,
